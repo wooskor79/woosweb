@@ -1,0 +1,62 @@
+.
+├── assets
+│   ├── css
+│   │   ├── style.css
+│   │   └── yahtzee.css
+│   └── js
+│       ├── app.appointments.js
+│       ├── app.common.js
+│       ├── app.tasks.js
+│       └── app.yahtzee.js
+├── cache
+│   ├── comics_cache
+│   └── thumbs
+│       ├── photo
+│       └── video
+├── config.php
+├── controllers
+│   ├── appointments.php
+│   ├── auth_controller.php
+│   ├── build_comics_cache.php
+│   ├── contacts.php
+│   ├── groups.php
+│   ├── tasks.php
+│   ├── yahtzee_api.php
+│   └── yahtzee_results_controller.php
+├── @eaDir
+│   └── my_app.sql@SynoEAStream
+├── favicon.ico
+├── folder_structure.txt
+├── index.php
+├── init.php
+├── lib
+│   ├── auth.php
+│   ├── csrf.php
+│   ├── db.php
+│   └── utils.php
+├── media
+│   ├── stream.php
+│   └── thumb.php
+├── my_app.sql
+├── photo_proxy.php
+├── thumb.php
+└── views
+    ├── _appointment_item.php
+    ├── appointments.php
+    ├── comics.php
+    ├── comic_viewer.php
+    ├── contacts.php
+    ├── dashboard.php
+    ├── jellyfin.php
+    ├── layout.php
+    ├── login.php
+    ├── music.php
+    ├── photos.php
+    ├── player.php
+    ├── register.php
+    ├── tasks.php
+    ├── videos.php
+    ├── yahtzee.php
+    └── yahtzee_results.php
+
+13 directories, 46 files
