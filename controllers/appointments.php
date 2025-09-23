@@ -4,12 +4,6 @@ if (!is_logged_in()) { http_response_code(401); exit; }
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
-/**
- * AJAX 판별은 헤더 기반으로만!
- * - X-Requested-With: XMLHttpRequest
- * - 또는 Accept: application/json
- * (폼 히든필드 ajax=1는 더 이상 사용하지 않음)
- */
 $accept  = $_SERVER['HTTP_ACCEPT'] ?? '';
 $isAjax  = (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest')
         || (stripos($accept, 'application/json') !== false);
@@ -28,7 +22,7 @@ if ($action === 'create') {
 
     $title   = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
-    $sel     = $_POST['group_select'] ?? ''; // 'common' | '<group_id>'
+    $sel     = $_POST['group_select'] ?? '';
 
     $is_common = 0;
     $group_id  = null;
@@ -49,7 +43,7 @@ if ($action === 'create') {
         $stmt->execute([$title, $content, $group_id, $is_common, current_user()['id']]);
     }
 
-    // ✅ [추가] DB 작업 후 리다이렉트 전에 현재 세션 정보를 파일에 즉시 저장합니다.
+    // ✅ [확인] 리다이렉트 전에 세션 데이터를 파일에 완전히 쓰도록 강제합니다.
     session_write_close();
 
     header('Location: '.base_url('index.php?page=appointments'));
