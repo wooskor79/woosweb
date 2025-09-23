@@ -23,12 +23,9 @@ function is_logged_in(): bool {
 }
 
 function current_user(): ?array {
-    static $user = null;
-    if ($user !== null) {
-        return $user ?: null;
-    }
+    // ✅ [수정] static $user 변수를 사용한 캐시 로직을 제거합니다.
+    // 이렇게 하면 함수가 호출될 때마다 항상 DB에서 최신 사용자 정보를 가져옵니다.
     if (!is_logged_in()) {
-        $user = false;
         return null;
     }
     $user = db_query_one('SELECT * FROM users WHERE id = ?', [$_SESSION['user_id']]);
