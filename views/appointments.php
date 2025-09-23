@@ -17,36 +17,36 @@ if (!is_logged_in() || (empty(user_group_ids($uid)) && !is_admin())) {
 
 
 // ===================================================================
-// 🚀 성능 개선 1: 약속 목록을 단 하나의 쿼리로 가져오기
+// 🚀 성능 개선 및 안정성 강화: 약속 목록 조회 로직 재구성
 // ===================================================================
+$all_appointments = [];
+$base_sql_select = "SELECT a.*, g.name AS group_name, u.username AS creator
+                    FROM appointments a
+                    LEFT JOIN groups g ON g.id = a.group_id
+                    JOIN users u ON u.id = a.created_by";
+$base_sql_order = "ORDER BY
+                      CASE a.status
+                        WHEN 'active' THEN 1
+                        WHEN 'expired' THEN 2
+                        WHEN 'deleted' THEN 3
+                      END,
+                      COALESCE(a.updated_at, a.created_at) DESC";
 
-// ✅ [수정] 관리자와 일반 사용자의 약속 조회 조건을 분리
 if (is_admin()) {
-    $params = [];
-    $cond = '1'; // 관리자는 모든 약속을 볼 수 있도록 조건 없음
+    // 관리자: 모든 약속을 조회합니다 (파라미터 없음).
+    $sql = "$base_sql_select WHERE a.status IN ('active', 'expired', 'deleted') $base_sql_order";
+    $all_appointments = db_query_all($sql);
 } else {
+    // 일반 사용자: 소속된 그룹의 약속과 공통 약속을 조회합니다.
     $gidList = user_group_ids($uid);
-    $gidIn = implode(',', array_fill(0, count($gidList), '?')) ?: 'NULL';
-    $params = $gidList;
-    $cond = "(a.is_common=1 OR a.group_id IN ($gidIn))";
+    // (상단 가드 조건에 의해 gidList가 비어있는 경우는 거의 없지만 안전하게 처리)
+    if (!empty($gidList)) {
+        $gidIn = implode(',', array_fill(0, count($gidList), '?'));
+        $sql = "$base_sql_select WHERE (a.is_common = 1 OR a.group_id IN ($gidIn)) AND a.status IN ('active', 'expired', 'deleted') $base_sql_order";
+        $all_appointments = db_query_all($sql, $gidList);
+    }
 }
 
-$sql = "SELECT a.*, g.name AS group_name, u.username AS creator
-        FROM appointments a
-        LEFT JOIN groups g ON g.id=a.group_id
-        JOIN users u ON u.id=a.created_by
-        WHERE $cond AND a.status IN ('active', 'expired', 'deleted')
-        ORDER BY
-          CASE a.status
-            WHEN 'active' THEN 1
-            WHEN 'expired' THEN 2
-            WHEN 'deleted' THEN 3
-          END,
-          COALESCE(a.updated_at, a.created_at) DESC";
-
-$stmt = db()->prepare($sql);
-$stmt->execute($params);
-$all_appointments = $stmt->fetchAll();
 
 // PHP에서 active와 history로 분리
 $active = [];
@@ -81,9 +81,6 @@ if (!empty($appointment_ids)) {
         $confirmations_by_id[$conf['appointment_id']][] = $conf;
     }
 }
-
-// 이제 이 함수는 사용하지 않습니다.
-// function confirmations_for($appt_id): array { ... }
 
 
 // 관리자: 약속 생성용 그룹 목록
