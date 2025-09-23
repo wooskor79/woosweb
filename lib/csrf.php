@@ -29,6 +29,7 @@ function csrf_input(): string {
 
 /**
  * 제출된 토큰이 세션의 토큰과 일치하는지 확인합니다.
+ * 확인 후에는 즉시 새 토큰으로 교체하여 재사용을 방지합니다.
  * @param string $token - 사용자가 제출한 토큰
  * @return bool
  */
@@ -39,8 +40,9 @@ function csrf_check(string $token): bool {
     
     $result = hash_equals($_SESSION['csrf_token'], $token);
     
-    // 한번 사용된 토큰은 세션에서 제거하여 재사용을 방지합니다.
-    unset($_SESSION['csrf_token']);
+    // ✅ [수정] 토큰을 unset하는 대신, 다음 요청을 위해 즉시 새 토큰을 생성합니다.
+    // 이 방식은 세션 변수를 제거하는 과정에서 발생할 수 있는 잠재적 문제를 피합니다.
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     
     return $result;
 }
