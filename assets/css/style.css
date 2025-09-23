@@ -1,0 +1,269 @@
+/* =========================
+   Global Theme Variables
+   ========================= */
+:root{
+  --bg:#f8fafc;
+  --panel:#ffffff;
+  --ink:#344054;
+  --muted:#98a2b3;
+  --primary:#86b6f6;        /* 파스텔 블루 */
+  --primary-ink:#0b5394;
+  --accent:#f6a5c0;         /* 파스텔 핑크 */
+  --success:#88d4ab;        /* 파스텔 그린 */
+  --danger:#f4a3a3;         /* 파스텔 레드 */
+  --border:#e5e7eb;
+  --br: 8px; /* 통일성을 위해 추가 */
+}
+
+/* Reset & Base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Apple SD Gothic Neo,Malgun Gothic,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+}
+a{color:var(--primary-ink);text-decoration:none}
+
+/* =========================
+   App Layout (로그인 후)
+   ========================= */
+.container{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{
+  width:260px;
+  background:linear-gradient(180deg, #f0f7ff, #fff);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column
+}
+.logout{padding:12px}
+.logout button{
+  width:100%;padding:10px;border:0;border-radius:8px;
+  background:var(--accent);color:#fff;cursor:pointer
+}
+.brand{padding:16px 20px 8px;font-weight:700;color:var(--primary-ink);font-size:18px}
+.menu{display:flex;flex-direction:column;gap:6px;padding:10px 12px}
+.menu a{padding:10px 12px;border-radius:8px;color:var(--ink)}
+.menu a.active{background:var(--primary);color:white}
+.admin-label{margin:12px 12px 4px;color:var(--muted);font-size:12px}
+
+/* Main */
+/* ✅ 수정됨: iframe이 꽉 차도록 높이와 패딩 조정 */
+.content{
+  flex:1;
+  height:100vh;
+  padding:0;
+}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+.panel-header{display:flex;align-items:center;justify-content:flex-start;gap:12px;margin-bottom:12px}
+.panel-header h2{margin:0}
+.panel-body{padding-top:12px} /* 헤더와 본문 간격 */
+
+
+/* Form Elements */
+.inline{display:inline-flex;gap:8px;align-items:center}
+input,select,textarea,button{font:inherit}
+input,select,textarea{
+  padding:10px;border:1px solid var(--border);border-radius:8px;background:#fff;min-width:0
+}
+button{
+  padding:10px 14px;border:0;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer
+}
+button.outline{background:#fff;color:var(--primary-ink);border:1px solid var(--primary)}
+button.danger{background:var(--danger)}
+button.small{padding:6px 10px;font-size:13px}
+
+/* Messages / Helpers */
+.empty{padding:16px;color:var(--muted);text-align:center;}
+.center-note{
+  display:grid; place-items:center;
+  min-height:40vh;
+  background:#fff; border:1px dashed var(--border);
+  border-radius:12px; color:#475569;
+}
+.center-note .big{ font-size:18px; font-weight:700; }
+
+
+/* ================================================================
+   패널 콘텐츠를 세로 중앙 정렬하기 위한 헬퍼 클래스
+   ================================================================ */
+.panel-center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 핵심: 내부 요소를 세로 중앙으로 정렬 */
+  min-height: 75vh; /* 패널의 최소 높이를 확보하여 중앙 정렬 효과를 줌 */
+}
+/* ================================================================ */
+
+
+/* =========================
+   로그인/회원가입 화면 (정중앙 배치)
+   ========================= */
+.auth{
+  min-height:100svh;            /* 모바일 대응 뷰포트 */
+  min-height:100vh;
+  display:flex;
+  align-items:center;            /* 수직 중앙 */
+  justify-content:center;        /* 수평 중앙 */
+  background:var(--bg);
+  padding:16px;
+}
+.auth-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:24px;
+  width:100%;
+  max-width:360px;               /* 카드 최대 폭 */
+  box-shadow:0 6px 20px rgba(0,0,0,.05);
+}
+.auth .title{margin:0 0 12px}
+.small{margin-top:8px;font-size:12px}
+.error{
+  background:#fff3f3;color:#c0392b;border:1px solid #fbd2d2;
+  padding:8px;border-radius:8px;margin-bottom:10px
+}
+
+/* =========================
+   App Modules
+   ========================= */
+/* Appointments */
+.appointment .row1{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.appointment .title{font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.group-chip{
+  display:inline-block;background:#eef2ff;color:#3b82f6;border:1px solid #dbeafe;
+  padding:2px 8px;border-radius:999px;font-size:12px
+}
+.status-chip{
+  display:inline-block;background:#fff7ed;color:#b45309;border:1px solid #fde4cf;
+  padding:2px 8px;border-radius:999px;font-size:12px
+}
+.status-chip.del{background:#fef2f2;color:#b91c1c;border-color:#fbcaca}
+.appointment .content{margin:8px 0 8px;white-space:pre-wrap}
+.who-text{margin:2px 0 10px;color:#475569}
+.action-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.confirm-btn{background:#eee;color:#333}
+.confirm-btn.on{background:var(--success);color:#1f3d2b}
+.expired-box{
+  border:1px solid var(--border);border-radius:10px;background:#fff;padding:8px 12px;margin-bottom:16px
+}
+.expired-box>summary{cursor:pointer;font-weight:700;color:#475569;list-style:none}
+.divider{border:none;border-top:1px dashed var(--border);margin:16px 0}
+.muted{opacity:.75}
+.section-title{margin:8px 0 8px;color:#334155;font-size:16px;font-weight:700}
+
+/* Tasks */
+.date-head{margin:16px 0 6px;color:#64748b}
+.todo-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.todo-item{
+  display:grid; grid-template-columns:auto auto 1fr;
+  align-items:center;gap:10px;background:#fcfcff;border:1px solid var(--border);
+  border-radius:10px;padding:10px
+}
+.task-check{
+  appearance:none;width:18px;height:18px;border:2px solid var(--border);
+  border-radius:4px;background:#fff;cursor:pointer;position:relative
+}
+.task-check:checked{border-color:var(--success);background:var(--success)}
+.task-check:checked::after{
+  content:'';position:absolute;left:4px;top:1px;width:6px;height:10px;
+  border:2px solid #fff;border-left:none;border-top:none;transform:rotate(45deg)
+}
+.todo-item.completed .title{ text-decoration:line-through; text-decoration-color:#d11; text-decoration-thickness:2px; }
+.hidden{display:none}
+.delete-box{display:flex;align-items:center;gap:8px}
+
+/* Tables */
+.table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.table th,.table td{padding:10px;border-bottom:1px solid var(--border);text-align:left}
+.table thead th{background:#f6fafe;color:#475569}
+
+/* File/Folder List View (만화/영화보기용) */
+.file-path { font-size: 14px; color: var(--muted); margin-bottom: 14px; word-break: break-all; }
+.up-link { text-decoration:none; color: var(--ink); border: 1px solid var(--border); padding: 10px 12px; border-radius: var(--br); display:inline-flex; align-items:center; gap:8px; margin-bottom: 16px; }
+.up-link:hover { background-color: #f6f6f6; }
+.file-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.file-list a { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border-radius: var(--br); text-decoration: none; color: var(--ink); transition: background-color 0.2s; }
+.file-list a:hover { background-color: #f0f7ff; }
+.file-list .icon { font-size: 22px; line-height: 1; color: #64748b; }
+.file-list .name { font-size: 15px; word-break: break-all; }
+
+
+/* Photos Grid (album-grid로 통합) */
+.album-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; }
+.album-grid .tile{ display:block; border-radius:10px; overflow:hidden; border:1px solid var(--border); background:#fff; }
+.album-grid img{ width:100%; height:180px; object-fit:cover; display:block }
+
+/* Lightbox */
+.lightbox{ position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.85); z-index:1000; padding:24px; }
+.lightbox.open{ display:grid; }
+.lightbox img{ max-width:90vw; max-height:85vh; box-shadow:0 10px 30px rgba(0,0,0,.4); background:#000; border-radius:8px; }
+.lb-close,.lb-prev,.lb-next{ position:absolute; border:0; background:rgba(255,255,255,.15); color:#fff; width:40px; height:40px; border-radius:50%; font-size:20px; cursor:pointer; display:grid; place-items:center; }
+.lb-close{ top:18px; right:18px }
+.lb-prev{ left:18px; top:50%; transform:translateY(-50%) }
+.lb-next{ right:18px; top:50%; transform:translateY(-50%) }
+.lb-close:hover,.lb-prev:hover,.lb-next:hover{ background:rgba(255,255,255,.25) }
+
+
+/* ================================================================
+   반응형 웹을 위한 미디어 쿼리 (아래에 추가된 부분입니다)
+   ================================================================ */
+@media (max-width: 1024px) { .sidebar { width: 220px; } }
+@media (max-width: 768px) {
+  .container { flex-direction: column; }
+  .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); }
+  .brand { text-align: center; }
+  .menu { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+  .content { padding: 16px; height: auto; /* 모바일에서는 높이 자동 조정 */ }
+  .panel { padding: 12px; }
+  .panel-header { flex-direction: column; align-items: flex-start; }
+  .appointment .row1 { flex-direction: column; align-items: flex-start; }
+  .album-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .album-grid img { height: 120px; }
+
+  /* ✅ [추가] 관리자 페이지 테이블 반응형 스타일 */
+  .admin-user-table {
+    border: none;
+    border-radius: 0;
+  }
+  .admin-user-table thead {
+    display: none; /* 모바일에서 테이블 헤더 숨김 */
+  }
+  .admin-user-table tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--br);
+    margin-bottom: 16px;
+    padding: 12px;
+  }
+  .admin-user-table td {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 8px 0;
+  }
+  .admin-user-table td:not(:last-child) {
+    border-bottom: 1px dashed #eee;
+  }
+  /* data-label을 이용해 각 셀의 제목을 표시 */
+  .admin-user-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .admin-user-table td form {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  /* music.php 모바일 스타일 추가 */
+  .music-list-container {
+    height: calc(100vh - 150px); /* 헤더/메뉴 등 예상 높이 제외 */
+  }
+}
