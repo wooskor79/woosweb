@@ -48,6 +48,11 @@ if ($action === 'create') {
         $stmt = db()->prepare("INSERT INTO appointments(title, content, group_id, is_common, created_by) VALUES(?,?,?,?,?)");
         $stmt->execute([$title, $content, $group_id, $is_common, current_user()['id']]);
     }
+    
+    // ✅ [수정] 리다이렉트 전에 세션 데이터를 파일에 완전히 쓰도록 강제합니다.
+    // 이로써 세션 상태와 관련된 잠재적인 경쟁 상태를 방지할 수 있습니다.
+    session_write_close();
+    
     header('Location: '.base_url('index.php?page=appointments'));
     exit;
 }
